@@ -7,11 +7,12 @@
 
 class User;
 class Room;
+class Alarm;
 
 enum access {
     BLUE, GREEN, YELLOW, RED, NO_LEVEL
 };
 
-bool checkAccess(Room* room, User* user);
+bool checkAccess(Alarm& alarm, Room* room, User* user);
 
 #endif //HW3_ACCESS_H

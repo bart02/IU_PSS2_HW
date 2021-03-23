@@ -1,6 +1,7 @@
 #include <iostream>
 
 #include "access.h"
+#include "Alarm.h"
 #include "Room.h"
 #include "User.h"
 #include "vector"
@@ -8,6 +9,8 @@
 using namespace std;
 
 int main() {
+    Alarm alarm;
+
     vector<User*> users;
 
     users.push_back(new Guest("Shkolnik", "Spring School of Robotics"));
@@ -41,11 +44,14 @@ int main() {
 
     users[0]->printInfo();
 
-    std::cout << checkAccess(rooms[1], users[0]) << std::endl; // prohobited
+    std::cout << checkAccess(alarm, rooms[1], users[0]) << std::endl; // blue approved
+    std::cout << checkAccess(alarm, rooms[0], users[0]) << std::endl; // prohibited
 
-    (dynamic_cast<Admin*>(users[27])) -> grantAccess(rooms[1], users[0]); // get access
+    alarm.on();
+
+//    (dynamic_cast<Admin*>(users[27])) -> grantAccess(rooms[1], users[0]); // get access
 
 
-    std::cout << checkAccess(rooms[1], users[0]) << std::endl; // approved
+    std::cout << checkAccess(alarm, rooms[0], users[0]) << std::endl; // approved
     return 0;
 }
