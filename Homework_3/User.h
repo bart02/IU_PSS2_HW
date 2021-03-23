@@ -2,8 +2,8 @@
 // Created by Artem Batalov on 21.02.2021.
 //
 
-#ifndef HW2_USER_H
-#define HW2_USER_H
+#ifndef HW3_USER_H
+#define HW3_USER_H
 
 #include "access.h"
 #include <string>
@@ -74,4 +74,4 @@ public:
 };
 
 
-#endif //HW2_USER_H
+#endif //HW3_USER_H

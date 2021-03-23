@@ -3,4 +3,4 @@ project(HW3)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_executable(HW2 main.cpp Room.cpp Room.h access.h User.cpp User.h access.cpp)
+add_executable(HW3 main.cpp Room.cpp Room.h access.h User.cpp User.h access.cpp)

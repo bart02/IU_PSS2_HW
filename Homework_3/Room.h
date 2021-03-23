@@ -2,8 +2,8 @@
 // Created by Artem Batalov on 21.02.2021.
 //
 
-#ifndef HW2_ROOM_H
-#define HW2_ROOM_H
+#ifndef HW3_ROOM_H
+#define HW3_ROOM_H
 
 
 #include "access.h"
@@ -30,4 +30,4 @@ public:
 };
 
 
-#endif //HW2_ROOM_H
+#endif //HW3_ROOM_H
