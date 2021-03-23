@@ -24,6 +24,14 @@ public:
 };
 
 
+class Guest : public User {
+public:
+    std::string event;
+
+    Guest(const std::string &name, const std::string &event, access accessLevel = BLUE);
+    void printInfo() override;
+};
+
 class Student : public User {
 public:
     int stipa;

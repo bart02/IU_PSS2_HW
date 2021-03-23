@@ -17,6 +17,13 @@ access User::getAccessLevel() const {
 }
 
 
+Guest::Guest(const std::string &name, const std::string &event, access accessLevel) : User(name, accessLevel), event(event) {}
+
+void Guest::printInfo() {
+    std::cout << "I'm a Guest of `" << this->event << "` event. My name is " << this->getName() << "." << std::endl;
+}
+
+
 Student::Student(const std::string &name, int stipa, access accessLevel) : User(name, accessLevel), stipa(stipa) {}
 
 void Student::printInfo() {

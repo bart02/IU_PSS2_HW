@@ -19,13 +19,14 @@ private:
     std::string name;
     room_type type;
     access access_level;
+    int floor;
 
 public:
     std::map<User*, bool> customAccess;
     access getAccessLevel() const;
 
-    Room(const std::string &name, room_type type, access accessLevel);
-    Room(const std::string &name, room_type type);
+    Room(const std::string &name, int floor, room_type type, access accessLevel);
+    Room(const std::string &name, int floor, room_type type);
 };
 
 

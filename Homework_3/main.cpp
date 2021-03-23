@@ -9,7 +9,11 @@ using namespace std;
 
 int main() {
     vector<User*> users;
-    for (int i=0; i < 16; i++) users.push_back(new Student("Student " + to_string(i), 20000));
+
+    users.push_back(new Guest("Shkolnik", "Spring School of Robotics"));
+
+    for (int i=0; i < 16; i++)
+        users.push_back(new Student("Student " + to_string(i), 20000));
 
     users.push_back(new Professor("Dr. Konyukhov", "abuv"));
     users.push_back(new Professor("Prof. Gelvanovsky", "Che molchim"));
@@ -31,9 +35,9 @@ int main() {
     users.push_back(new Director("Kirill Semeinkhin", "Mercedes"));
 
     vector<Room*> rooms;
-    rooms.push_back(new Room("313", CLASS_ROOM));
-    rooms.push_back(new Room("108", LECTURE_ROOM));
-    rooms.push_back(new Room("Sky", DIRECTOR_CABINET));
+    rooms.push_back(new Room("313", 3, CLASS_ROOM));
+    rooms.push_back(new Room("108", 1, LECTURE_ROOM));
+    rooms.push_back(new Room("Sky", 999, DIRECTOR_CABINET));
 
     users[0]->printInfo();
 

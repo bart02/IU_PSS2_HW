@@ -4,10 +4,16 @@
 
 #include "Room.h"
 
-Room::Room(const std::string &name, room_type type, access accessLevel) : name(name), type(type),
-                                                                          access_level(accessLevel) {}
+Room::Room(const std::string &name, int floor, room_type type, access accessLevel) : name(name),
+                                                                                     floor(floor),
+                                                                                     type(type),
+                                                                                     access_level(accessLevel) {}
 
-Room::Room(const std::string &name, room_type type) : name(name), type(type) {
+Room::Room(const std::string &name, int floor, room_type type) : name(name), floor(floor), type(type) {
+    if ((type == LECTURE_ROOM || type == CONFERENCE_ROOM) && floor == 1) {
+        access_level = BLUE;
+        return;
+    }
     switch (type) {
         case CLASS_ROOM:
             access_level = GREEN;

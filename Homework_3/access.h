@@ -9,7 +9,7 @@ class User;
 class Room;
 
 enum access {
-    GREEN, YELLOW, RED, NO_LEVEL
+    BLUE, GREEN, YELLOW, RED, NO_LEVEL
 };
 
 bool checkAccess(Room* room, User* user);
