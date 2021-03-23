@@ -32,12 +32,16 @@ vector_users.push_back(new Student("Artem Batalov", 20000));
 (dynamic_cast<Admin*>(users[15])) -> grantAccess(rooms[1], users[0]);
 ```
 
-#### Admins can grant access to any room
+### Fire alarm
+This program has Alarm that could open each room in case of emergency.
 
 ### Types of rooms
 `CLASS_ROOM`, `LECTURE_ROOM`, `CONFERENCE_ROOM`, `CABINET`, `DIRECTOR_CABINET`
 
 ### Types of users
+#### Guest
+He/she can participate in some event.
+
 #### Student
 You can set amount of his/her stipa.
 
