@@ -8,8 +8,11 @@ cmake
 ### Compile and run
 UNIX:
 ```bash
-g++ main.cpp Room.cpp Room.h access.h User.cpp User.h access.cpp -std=c++14
-./a.out
+mkdir build
+cd build
+cmake ..
+make
+./HW3
 ```
 
 ### What this program do?
