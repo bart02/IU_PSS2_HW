@@ -1,47 +1,37 @@
 #include <iostream>
 #include <sqlite_orm/sqlite_orm.h>
 
+#include "PassengerGateway.h"
+#include "DriverGateway.h"
+#include "DB.h"
+
 using namespace std;
 using namespace sqlite_orm;
 
-struct Passenger{
-    int id;
-    std::string name;
-    int rating;
-};
-
-struct Driver{
-    int id;
-    std::string name;
-    int rating;
-    int status;
-};
-
-auto create_db() {
-    return make_storage("db.sqlite",
-                        make_table("passengers",
-                                   make_column("id", &Passenger::id, autoincrement(), primary_key()),
-                                   make_column("name", &Passenger::name),
-                                   make_column("rating", &Passenger::rating)),
-                        make_table("drivers",
-                                   make_column("id", &Driver::id, autoincrement(), primary_key()),
-                                   make_column("name", &Driver::name),
-                                   make_column("rating", &Driver::rating),
-                                   make_column("status", &Driver::status)));
-}
-
-
+Storage DB::storage = init_storage();
 
 int main() {
+    // DB init
+    DB::storage.sync_schema();
 
-    auto storage = create_db();
-    storage.sync_schema();
+    // Gateways init
+    PassengerGateway pg;
+    DriverGateway dg;
 
-    Passenger pax{-1, "Ivan", 0};
-    int insertedId = storage.insert(pax);
-    cout << "insertedId = " << insertedId << endl;
-    pax.id = insertedId;
+    // Registration
+//    pg.signup("Artem Batalov", "bart02", "pass");
+//    dg.signup("Dzhamshut", "dz", "pass");
 
-    std::cout << "Hello, World!" << std::endl;
+    // Actions
+    Passenger p = pg.login("bart02", "pass");
+    Driver d = dg.login("dz", "pass");
+
+//    Order order = pg.order_taxi(p, "", "", 0);
+    dg.on_line(d);
+    Order order = pg.order_taxi(p, "", "", 0);
+
+    auto hist = pg.order_history(p);
+
+    std::cout << order.id << std::endl;
     return 0;
 }
