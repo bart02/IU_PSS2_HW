@@ -37,6 +37,7 @@ struct Order{
     int status; // 0 - car not assigned; 1 - car is en route; 2 - waiting; -1 - car not found
 };
 
+
 inline auto init_storage() {
     return make_storage("db.sqlite",
                         make_table("passengers",
