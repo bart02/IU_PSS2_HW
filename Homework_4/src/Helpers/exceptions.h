@@ -34,4 +34,28 @@ class NoDrivers: public exception
     }
 };
 
+class DriverIsOfflineOrBusy: public exception
+{
+    virtual const char* what() const throw()
+    {
+        return "Driver is offline or busy";
+    }
+};
+
+class OrderAlreadyInProgress: public exception
+{
+    virtual const char* what() const throw()
+    {
+        return "Order already ..."; // TODO
+    }
+};
+
+class NoOrders: public exception
+{
+    virtual const char* what() const throw()
+    {
+        return "No orders";
+    }
+};
+
 #endif //HOMEWORK_4_EXCEPTIONS_H

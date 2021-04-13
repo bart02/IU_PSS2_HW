@@ -4,8 +4,8 @@
 
 #include <iostream>
 #include "PassengerGateway.h"
-#include "random_string.h"
-#include "Backend.h"
+#include "../Helpers/random_string.h"
+#include "../Backend.h"
 
 void PassengerGateway::signup(const string &name, const string &login, const string &password) {
     int users_with_same_login = DB::storage.count<Passenger>(where(c(&Passenger::login) == login));
@@ -32,13 +32,13 @@ Passenger PassengerGateway::login(const string &login, const string &password) {
     return vec[0];
 }
 
-Order PassengerGateway::order_taxi(const Passenger& passenger, const string &from, const string &to, int clas) {
+Order PassengerGateway::order_taxi(const Passenger& passenger, const string &from, const string &to, int carType) {
     auto available_drivers = DB::storage.get_all<Driver>(where(c(&Driver::status) == 1));
     if (available_drivers.empty()) {
         throw NoDrivers();
     }
 
-    int sum = Backend::calculate_sum(from, to, clas);
+    int sum = Backend::calculate_sum(from, to, carType);
 
     Order ord{-1, from, to, passenger.id, -1, sum, 0};
     ord.id = DB::storage.insert(ord);
@@ -48,4 +48,10 @@ Order PassengerGateway::order_taxi(const Passenger& passenger, const string &fro
 
 vector<Order> PassengerGateway::order_history(const Passenger &passenger) {
     return DB::storage.get_all<Order>(where(c(&Order::passenger) == passenger.id));
+}
+
+Order PassengerGateway::current_order(const Passenger& passenger) {
+    vector<Order> vec = DB::storage.get_all<Order>(where(c(&Order::passenger) == passenger.id));
+    if (vec.empty()) throw NoOrders();
+    return vec[0];
 }

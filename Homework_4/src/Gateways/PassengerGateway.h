@@ -7,8 +7,8 @@
 
 #include <string>
 #include <vector>
-#include "exceptions.h"
-#include "DB.h"
+#include "../Helpers/exceptions.h"
+#include "../DB.h"
 
 using namespace std;
 
@@ -20,7 +20,9 @@ public:
 
     Passenger login(const string& login, const string& password);
 
-    Order order_taxi(const Passenger& passenger, const string& from, const string& to, int clas);
+    Order order_taxi(const Passenger& passenger, const string& from, const string& to, int carType);
+
+    Order current_order(const Passenger& passenger);
     vector<Order> order_history(const Passenger& passenger);
 };
 

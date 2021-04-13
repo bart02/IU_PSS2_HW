@@ -7,33 +7,34 @@
 
 #include <sqlite_orm/sqlite_orm.h>
 
+using namespace std;
 using namespace sqlite_orm;
 
 struct Passenger{
     int id;
-    std::string name;
+    string name;
     int rating;
-    std::string login;
-    std::string password;
+    string login;
+    string password;
 };
 
 struct Driver{
     int id;
-    std::string name;
+    string name;
     int rating;
-    int status;
-    std::string login;
-    std::string password;
+    int status; // 0 - offline, 1 - on line (free), 2 - on order;
+    string login;
+    string password;
 };
 
 struct Order{
     int id;
-    std::string from;
-    std::string to;
+    string from;
+    string to;
     int passenger;
     int driver;
     int sum;
-    int status;
+    int status; // 0 - car not assigned; 1 - car is en route; 2 - waiting; -1 - car not found
 };
 
 inline auto init_storage() {
