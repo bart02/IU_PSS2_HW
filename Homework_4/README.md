@@ -6,6 +6,7 @@ C++14
 gcc  
 cmake  
 sqlite3  
+libsqlite3-dev  
 [sqlite_orm](https://github.com/fnc12/sqlite_orm)
 
 ### Compile and run
@@ -17,3 +18,5 @@ cmake ..
 make
 ./Homework_4
 ```
+
+See main.cpp file for information.

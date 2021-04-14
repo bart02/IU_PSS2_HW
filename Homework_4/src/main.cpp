@@ -80,23 +80,15 @@ int main() {
     auto mahmedsorders = dg.available_orders(mahmed); // Mahmed's orders 0
     auto dzahmutsorders = dg.available_orders(dzam); // Dzhamshut's orders 1
 
-    dg.get_order(dzam, dzahmutsorders[0]);
+    dg.get_order(dzam, dzahmutsorders[0]); // Dzhamshut gets Succi order 1
 
     // Pull updates from backend
     Backend::update_geo();
-    cout << pg.car_info(pg.current_order(succi)).coordinates_lon << endl;
+    cout << pg.car_info(pg.current_order(succi)).coordinates_lon << endl; // Request coords
 
     dg.arrived(dzahmutsorders[0]);
     cout << pg.current_order(succi).status << " " << pg.car_info(pg.current_order(succi)).freeBottleOfwater << endl;
-////    Order order = pg.order_taxi(p, "", "", 0);
-////    auto avail = dg.available_orders(d);
-////    dg.get_order(d, avail[0]);
-////    avail = dg.available_orders(d);
-//    auto cur = dg.current_order(d);
-//    dg.arrived(cur);
-
-//    auto hist = pg.order_history(p);
-
-//    std::cout << order.id << std::endl;
+    dg.done(dzahmutsorders[0]);
+    
     return 0;
 }
