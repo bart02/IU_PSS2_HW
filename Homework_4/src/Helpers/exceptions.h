@@ -12,6 +12,7 @@ using namespace std;
 
 class LoginBusy: public exception
 {
+public:
     virtual const char* what() const throw()
     {
         return "This login is busy";
@@ -20,6 +21,7 @@ class LoginBusy: public exception
 
 class LoginOrPasswordIncorrect: public exception
 {
+public:
     virtual const char* what() const throw()
     {
         return "Login or password is incorrect";
@@ -28,6 +30,7 @@ class LoginOrPasswordIncorrect: public exception
 
 class NoDrivers: public exception
 {
+public:
     virtual const char* what() const throw()
     {
         return "There are not any available drivers";
@@ -36,6 +39,7 @@ class NoDrivers: public exception
 
 class DriverIsOfflineOrBusy: public exception
 {
+public:
     virtual const char* what() const throw()
     {
         return "Driver is offline or busy";
@@ -44,6 +48,7 @@ class DriverIsOfflineOrBusy: public exception
 
 class OrderAlreadyInProgress: public exception
 {
+public:
     virtual const char* what() const throw()
     {
         return "Order already ..."; // TODO
@@ -52,6 +57,7 @@ class OrderAlreadyInProgress: public exception
 
 class NoOrders: public exception
 {
+public:
     virtual const char* what() const throw()
     {
         return "No orders";

@@ -33,14 +33,16 @@ Passenger PassengerGateway::login(const string &login, const string &password) {
 }
 
 Order PassengerGateway::order_taxi(const Passenger& passenger, const string &from, const string &to, int carType) {
-    auto available_drivers = DB::storage.get_all<Driver>(where(c(&Driver::status) == 1));
-    if (available_drivers.empty()) {
+//    auto available_drivers = DB::storage.get_all<Driver>(where(c(&Driver::status) == 1));
+    auto rows = DB::storage.select(columns(&Driver::id, &Car::carType), join<Car>(on(c(&Driver::id) == &Car::driver)), where(c(&Driver::status) == 1 and c(&Car::carType) >= carType));
+
+    if (rows.empty()) {
         throw NoDrivers();
     }
 
     int sum = Backend::calculate_sum(from, to, carType);
 
-    Order ord{-1, from, to, passenger.id, -1, sum, 0};
+    Order ord{-1, from, to, passenger.id, -1, carType, sum, 0};
     ord.id = DB::storage.insert(ord);
 
     return ord;
@@ -54,4 +56,15 @@ Order PassengerGateway::current_order(const Passenger& passenger) {
     vector<Order> vec = DB::storage.get_all<Order>(where(c(&Order::passenger) == passenger.id));
     if (vec.empty()) throw NoOrders();
     return vec[0];
+}
+
+void PassengerGateway::add_payment_method(const Passenger& passenger, const string& method) {
+    PaymentMethod pay{-1, passenger.id, method};
+    DB::storage.insert(pay);
+}
+
+Car PassengerGateway::car_info(const Order &order) {
+    Driver driver = DB::storage.get<Driver>(order.driver);
+//    Car car = DB::storage.get<Car>(where(c(&Car::driver) == driver.id));
+    return DB::storage.get_all<Car>(where(c(&Car::driver) == driver.id))[0];
 }

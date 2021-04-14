@@ -5,6 +5,7 @@
 #ifndef HOMEWORK_4_DB_H
 #define HOMEWORK_4_DB_H
 
+#include <iostream>
 #include <sqlite_orm/sqlite_orm.h>
 
 using namespace std;
@@ -33,10 +34,34 @@ struct Order{
     string to;
     int passenger;
     int driver;
+    int carType; // 0 - Economy, 1 - Comfort, 2 - ComfortPlus, 3 - Business
     int sum;
-    int status; // 0 - car not assigned; 1 - car is en route; 2 - waiting; -1 - car not found
+    int status; // 0 - car not assigned; 1 - car is en route; 2 - waiting; 3 - done; -1 - car not found
 };
 
+struct Car{
+    int id;
+    string name;
+    int driver;
+    int carType; // 0 - Economy, 1 - Comfort, 2 - ComfortPlus, 3 - Business
+    int freeBottleOfwater;
+    int coordinates_lat;
+    int coordinates_lon;
+
+    void parkRightInFrontOfTheEntrance() {
+        if (carType == 3) {
+            cout << "Of course!" << endl;
+        } else {
+            cout << "Ti cho, ni budu ia nikuda porkovatsa!" << endl;
+        }
+    }
+};
+
+struct PaymentMethod{
+    int id;
+    int passenger;
+    string method;
+};
 
 inline auto init_storage() {
     return make_storage("db.sqlite",
@@ -59,8 +84,20 @@ inline auto init_storage() {
                                    make_column("to", &Order::to),
                                    make_column("passenger", &Order::passenger),
                                    make_column("driver", &Order::driver),
+                                   make_column("carType", &Order::carType),
                                    make_column("sum", &Order::sum),
-                                   make_column("status", &Order::status)));
+                                   make_column("status", &Order::status)),
+                        make_table("cars",
+                                   make_column("id", &Car::id, autoincrement(), primary_key()),
+                                   make_column("name", &Car::name),
+                                   make_column("driver", &Car::driver),
+                                   make_column("carType", &Car::carType),
+                                   make_column("lat", &Car::coordinates_lat),
+                                   make_column("lon", &Car::coordinates_lon)),
+                        make_table("payment",
+                                   make_column("id", &PaymentMethod::id, autoincrement(), primary_key()),
+                                   make_column("passenger", &PaymentMethod::passenger),
+                                   make_column("method", &PaymentMethod::method)));
 }
 using Storage = decltype(init_storage());
 

@@ -10,4 +10,6 @@
 
 std::string random_string(size_t length );
 
+void print_logo();
+
 #endif //HOMEWORK_4_RANDOM_STRING_H
