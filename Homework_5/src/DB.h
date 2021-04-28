@@ -17,6 +17,7 @@ struct Passenger{
     int rating;
     string login;
     string password;
+    bool ban;
 };
 
 struct Driver{
@@ -26,6 +27,7 @@ struct Driver{
     int status; // 0 - offline, 1 - on line (free), 2 - on order;
     string login;
     string password;
+    bool ban;
 };
 
 struct Order{
@@ -47,6 +49,8 @@ struct Car{
     int freeBottleOfwater;
     int coordinates_lat;
     int coordinates_lon;
+    bool validated;
+    bool in_use;
 
     void parkRightInFrontOfTheEntrance() {
         if (carType == 3) {
@@ -63,6 +67,12 @@ struct PaymentMethod{
     string method;
 };
 
+struct Admin{
+    int id;
+    string login;
+    string password;
+};
+
 inline auto init_storage() {
     return make_storage("db.sqlite",
                         make_table("passengers",
@@ -70,14 +80,16 @@ inline auto init_storage() {
                                    make_column("name", &Passenger::name),
                                    make_column("rating", &Passenger::rating),
                                    make_column("login", &Passenger::login),
-                                   make_column("password", &Passenger::password)),
+                                   make_column("password", &Passenger::password),
+                                   make_column("ban", &Passenger::ban)),
                         make_table("drivers",
                                    make_column("id", &Driver::id, autoincrement(), primary_key()),
                                    make_column("name", &Driver::name),
                                    make_column("rating", &Driver::rating),
                                    make_column("status", &Driver::status),
                                    make_column("login", &Driver::login),
-                                   make_column("password", &Driver::password)),
+                                   make_column("password", &Driver::password),
+                                   make_column("ban", &Driver::ban)),
                         make_table("orders",
                                    make_column("id", &Order::id, autoincrement(), primary_key()),
                                    make_column("from", &Order::from),
@@ -92,12 +104,19 @@ inline auto init_storage() {
                                    make_column("name", &Car::name),
                                    make_column("driver", &Car::driver),
                                    make_column("carType", &Car::carType),
+                                   make_column("freeBottleOfwater", &Car::freeBottleOfwater),
                                    make_column("lat", &Car::coordinates_lat),
-                                   make_column("lon", &Car::coordinates_lon)),
+                                   make_column("lon", &Car::coordinates_lon),
+                                   make_column("validated", &Car::validated),
+                                   make_column("in_use", &Car::in_use)),
                         make_table("payment",
                                    make_column("id", &PaymentMethod::id, autoincrement(), primary_key()),
                                    make_column("passenger", &PaymentMethod::passenger),
-                                   make_column("method", &PaymentMethod::method)));
+                                   make_column("method", &PaymentMethod::method)),
+                        make_table("admins",
+                                   make_column("id", &Admin::id, autoincrement(), primary_key()),
+                                   make_column("login", &Admin::login),
+                                   make_column("password", &Admin::password)));
 }
 using Storage = decltype(init_storage());
 

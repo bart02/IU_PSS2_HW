@@ -11,11 +11,12 @@
 
 class DriverGateway {
 public:
-    void signup(const string& name, const string& login, const string& password, const string& car_name, const int& car_type);
-
+    void signup(const string& name, const string& login, const string& password);
     Driver login(const string& login, const string& password);
 
-    void on_line(Driver& driver);
+    Car new_car(const Driver &driver, const string& car_name, const int& car_type);
+
+    void on_line(Driver& driver, Car &car);
 
     void get_order(Driver& driver, Order& order);
     void arrived(Order& order);

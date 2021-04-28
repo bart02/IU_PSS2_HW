@@ -34,6 +34,10 @@ Passenger PassengerGateway::login(const string &login, const string &password) {
 
 Order PassengerGateway::order_taxi(const Passenger& passenger, const string &from, const string &to, int carType) {
 //    auto available_drivers = DB::storage.get_all<Driver>(where(c(&Driver::status) == 1));
+    if (passenger.ban) {
+        throw Banned();
+    }
+
     auto rows = DB::storage.select(columns(&Driver::id, &Car::carType), join<Car>(on(c(&Driver::id) == &Car::driver)), where(c(&Driver::status) == 1 and c(&Car::carType) >= carType));
 
     if (rows.empty()) {

@@ -26,18 +26,20 @@ int main() {
     // All characters appearing in this work are fictitious.
     // Any resemblance to real persons, living or dead, is purely coincidental :).
     pg.signup("Giancarlo Succi", "succi", "wasabbbi");
-    pg.signup("Mike Ivanov", "l1va", "l1va4ka"); // it's a joke :)
+    pg.signup("Mike Ivanov", "l1va", "l1va4ka"); // it's a joke [or not?)]
     pg.signup("Murat Shaikhutdinov", "notcesar", "10followers");
     pg.signup("Vladimir Makharev", "smirk", "7kilimanjaro");
     pg.signup("Georgy Gelvanovsky", "EgorGelvanovsky", "ch0_m0lch1m");
 
-    dg.signup("Dzhamshut", "dzamshutamana", "nasialnika", "Mercedes", 3);
-    dg.signup("Shavkatzhon", "ShAvKaTzHoN", "1234567890", "Lada Kalina", 0);
-    dg.signup("Ashurmahmed", "mahmed", "shaurma", "Toyota Corolla", 1);
+    dg.signup("Dzhamshut", "dzamshutamana", "nasialnika");
+    dg.signup("Shavkatzhon", "ShAvKaTzHoN", "1234567890");
+    dg.signup("Ashurmahmed", "mahmed", "shaurma");
 
     // Actions
     Driver dzam = dg.login("dzamshutamana", "nasialnika");
+    Car mers = dg.new_car(dzam, "Mercedes", 3);
     Driver mahmed = dg.login("mahmed", "shaurma");
+    Car lada = dg.new_car(mahmed, "Lada Kalina", 0);
 
     Passenger succi = pg.login("succi", "wasabbbi");
     pg.add_payment_method(succi, "Oplata Online");
@@ -53,7 +55,7 @@ int main() {
     }
     // ... and get No drivers error.
 
-    dg.on_line(mahmed); // Let's switch mahmed to online status
+    dg.on_line(mahmed, lada); // Let's switch mahmed to online status
 
     // Trying to do the order...
     try {
@@ -64,7 +66,7 @@ int main() {
     // ... and get |censored| No drivers error.
     // So, stop, we want business-class car, but our driver has only Lada Kalina (not for Succi)
 
-    dg.on_line(dzam); // Let's switch Dzhamshut to online status (he has Mercedes, special for Giancarlo)
+    dg.on_line(dzam, mers); // Let's switch Dzhamshut to online status (he has Mercedes, special for Giancarlo)
 
     // Trying to do the order...
     try {

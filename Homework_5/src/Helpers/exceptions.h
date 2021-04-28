@@ -64,4 +64,22 @@ public:
     }
 };
 
+class Banned: public exception
+{
+public:
+    virtual const char* what() const throw()
+    {
+        return "User banned";
+    }
+};
+
+class CarError: public exception
+{
+public:
+    virtual const char* what() const throw()
+    {
+        return "It is not your car";
+    }
+};
+
 #endif //HOMEWORK_5_EXCEPTIONS_H

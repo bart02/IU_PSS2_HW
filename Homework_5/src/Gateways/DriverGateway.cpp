@@ -6,20 +6,14 @@
 #include <iostream>
 #include "../Helpers/random_string.h"
 
-void DriverGateway::signup(const string &name, const string &login, const string &password, const string& car_name, const int& car_type) {
+void DriverGateway::signup(const string &name, const string &login, const string &password) {
     int users_with_same_login = DB::storage.count<Driver>(where(c(&Driver::login) == login));
     if (users_with_same_login != 0) {
         throw LoginBusy();
     }
 
     Driver drv{-1, name, 0, 0, login, password};
-    int id = DB::storage.insert(drv);
-
-    int bootles = 0;
-    if (car_type > 0) bootles = std::rand() % 10;
-
-    Car car{-1, car_name ,id, car_type, bootles, 0, 0};
-    DB::storage.insert(car);
+    DB::storage.insert(drv);
 }
 
 Driver DriverGateway::login(const string &login, const string &password) {
@@ -33,12 +27,23 @@ Driver DriverGateway::login(const string &login, const string &password) {
     return vec[0];
 }
 
-void DriverGateway::on_line(Driver &driver) {
+void DriverGateway::on_line(Driver &driver, Car &car) {
+    if (car.driver != driver.id) {
+        throw CarError();
+    }
+
     driver.status = 1;
     DB::storage.update(driver);
+
+    car.in_use = true;
+    DB::storage.update(car);
 }
 
 void DriverGateway::get_order(Driver& driver, Order& order) {
+    if (driver.ban) {
+        throw Banned();
+    }
+
     if (driver.status != 1) {
         throw DriverIsOfflineOrBusy();
     }
@@ -77,5 +82,15 @@ void DriverGateway::arrived(Order& order) {
 void DriverGateway::done(Order& order) {
     order.status = 3;
     DB::storage.update(order);
+}
+
+Car DriverGateway::new_car(const Driver &driver, const string &car_name, const int &car_type) {
+    int bootles = 0;
+    if (car_type > 0) bootles = std::rand() % 10;
+
+    Car car{-1, car_name, driver.id, car_type, bootles, 0, 0, false};
+    car.id = DB::storage.insert(car);
+
+    return car;
 }
 
