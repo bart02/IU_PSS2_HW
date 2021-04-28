@@ -23,19 +23,27 @@ Admin AdminGateway::login(const string& login, const string& password) {
     return vec[0];
 }
 
-template<typename T>
-void AdminGateway::ban(T& user) {
+void AdminGateway::validate(Car &car) {
+    car.validated = true;
+    DB::storage.update(car);
+}
+
+void AdminGateway::banDriver(Driver &user) {
     user.ban = true;
     DB::storage.update(user);
 }
 
-template<typename T>
-void AdminGateway::unban(T &user) {
+void AdminGateway::unbanDriver(Driver &user) {
     user.ban = false;
     DB::storage.update(user);
 }
 
-void AdminGateway::validate(Car &car) {
-    car.validated = true;
-    DB::storage.update(car);
+void AdminGateway::banPassenger(Passenger &user) {
+    user.ban = true;
+    DB::storage.update(user);
+}
+
+void AdminGateway::unbanPassenger(Passenger &user) {
+    user.ban = false;
+    DB::storage.update(user);
 }

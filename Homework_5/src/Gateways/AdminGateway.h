@@ -11,11 +11,14 @@
 #include "../DB.h"
 
 class AdminGateway {
+public:
     void signup(const string& login, const string& password);
     Admin login(const string& login, const string& password);
 
-    template <typename T> void ban(T& user);
-    template <typename T> void unban(T& user);
+    void banDriver(Driver& user);
+    void unbanDriver(Driver& user);
+    void banPassenger(Passenger& user);
+    void unbanPassenger(Passenger& user);
 
     void validate(Car& car);
 };

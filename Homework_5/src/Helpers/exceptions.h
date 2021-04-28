@@ -82,4 +82,13 @@ public:
     }
 };
 
+class CarIsNotValidated: public exception
+{
+public:
+    virtual const char* what() const throw()
+    {
+        return "Car is not validated";
+    }
+};
+
 #endif //HOMEWORK_5_EXCEPTIONS_H

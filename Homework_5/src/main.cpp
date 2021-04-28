@@ -6,6 +6,7 @@
 #include "DB.h"
 #include "Backend.h"
 #include "Helpers/random_string.h"
+#include "Gateways/AdminGateway.h"
 
 using namespace std;
 using namespace sqlite_orm;
@@ -21,6 +22,7 @@ int main() {
     // Gateways init
     PassengerGateway pg;
     DriverGateway dg;
+    AdminGateway ag;
 
     // Registration
     // All characters appearing in this work are fictitious.
@@ -55,7 +57,20 @@ int main() {
     }
     // ... and get No drivers error.
 
-    dg.on_line(mahmed, lada); // Let's switch mahmed to online status
+    try {
+        dg.on_line(mahmed, lada); // Let's switch mahmed to online status
+    } catch (const CarIsNotValidated& e) {
+        cout << e.what() << endl;
+    }
+    // Car was not validated
+
+    ag.validate(lada);
+
+    try {
+        dg.on_line(mahmed, lada); // Let's switch mahmed to online status
+    } catch (const CarIsNotValidated& e) {
+        cout << e.what() << endl;
+    }
 
     // Trying to do the order...
     try {
@@ -66,6 +81,7 @@ int main() {
     // ... and get |censored| No drivers error.
     // So, stop, we want business-class car, but our driver has only Lada Kalina (not for Succi)
 
+    ag.validate(mers);
     dg.on_line(dzam, mers); // Let's switch Dzhamshut to online status (he has Mercedes, special for Giancarlo)
 
     // Trying to do the order...
@@ -90,7 +106,20 @@ int main() {
 
     dg.arrived(dzahmutsorders[0]);
     cout << pg.current_order(succi).status << " " << pg.car_info(pg.current_order(succi)).freeBottleOfwater << endl;
-    dg.done(dzahmutsorders[0]);
+    dg.done(dzam, dzahmutsorders[0]);
+
+    Passenger murat = pg.login("notcesar", "10followers");
+    ag.banPassenger(murat);
+
+    try {
+        Order orderm = pg.order_taxi(murat, "Uni", "SC", 3);
+    } catch (const Banned& e) {
+        cout << e.what() << endl;
+    }
+
+    ag.unbanPassenger(murat);
+    Order orderm = pg.order_taxi(murat, "Uni", "SC", 3);
+
     
     return 0;
 }

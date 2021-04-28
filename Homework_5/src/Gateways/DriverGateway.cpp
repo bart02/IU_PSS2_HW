@@ -28,6 +28,12 @@ Driver DriverGateway::login(const string &login, const string &password) {
 }
 
 void DriverGateway::on_line(Driver &driver, Car &car) {
+    if (driver.ban) {
+        throw Banned();
+    }
+    if (!car.validated) {
+        throw CarIsNotValidated();
+    }
     if (car.driver != driver.id) {
         throw CarError();
     }
@@ -79,9 +85,12 @@ void DriverGateway::arrived(Order& order) {
     DB::storage.update(order);
 }
 
-void DriverGateway::done(Order& order) {
+void DriverGateway::done(Driver &driver, Order& order) {
     order.status = 3;
     DB::storage.update(order);
+
+    driver.status = 1;
+    DB::storage.update(driver);
 }
 
 Car DriverGateway::new_car(const Driver &driver, const string &car_name, const int &car_type) {

@@ -20,7 +20,7 @@ public:
 
     void get_order(Driver& driver, Order& order);
     void arrived(Order& order);
-    void done(Order& order);
+    void done(Driver &driver, Order& order);
 
     Order current_order(const Driver& driver);
     vector<Order> available_orders(const Driver &driver);
